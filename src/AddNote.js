@@ -1,39 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import './AddNote.css';
 
-class AddNote extends Component {
-  state = {
-    title: '',
-  }
-
-  addNote = () => {
-    this.props.onAddNote({
-      title: this.state.title,
-    });
-
-    this.setState({ title: '' });
-  }
-
-  update(field) {
-    return (e) => {
-      this.setState({ [field]: e.target.value });
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <label>Title:</label>
-        
-        <input
-          type="text"
-          value={this.state.title}
-          onChange={this.update('title')}
-        />
-
-        <button onClick={this.addNote}>Add</button>
-      </div>
-    );
-  }
-}
+const AddNote = ({ onAdd }) => (
+  <div className="add-note">
+    <button onClick={onAdd}>
+      + Add New Note
+    </button>
+  </div>
+);
 
 export default AddNote;

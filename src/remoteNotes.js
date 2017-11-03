@@ -1,11 +1,11 @@
 import cuid from 'cuid';
 
-const EMPTY_NOTE = {
-  id: '',
-  title: '',
+const newNote = () => ({
+  id: cuid(),
+  title: 'Untitled',
   description: '',
   images: [],
-};
+});
 
 function updateNotes(notes) {
   localStorage.setItem('notes', JSON.stringify(notes));
@@ -28,16 +28,10 @@ export function updateNote(note) {
 }
 
 export function addNote(noteWithoutId) {
-  const id = cuid();
-
-  const note = {
-    ...EMPTY_NOTE,
-    ...noteWithoutId,
-    id,
-  };
-
+  const note = newNote();
   const notes = getAll().concat(note);
 
   updateNotes(notes);
-  return note;
+
+  return notes;
 }

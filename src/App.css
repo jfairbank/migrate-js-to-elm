@@ -1,0 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+}
+
+.app_sidebar {
+  width: 250px;
+}
+
+.app_sidebar .add-note {
+  margin-top: 10px;
+}
+
+.app_content {
+  margin-left: 40px;
+}

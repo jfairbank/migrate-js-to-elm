@@ -3,6 +3,7 @@ import Note from './Note';
 import NotesList from './NotesList';
 import AddNote from './AddNote';
 import * as remoteNotes from './remoteNotes';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
@@ -10,74 +11,68 @@ class App extends Component {
 
     const notes = remoteNotes.getAll();
 
-    if (notes.length > 0) {
-      this.state = {
-        notes,
-        selectedNote: notes[0],
-        page: 'NOTE',
-      };
-    } else {
-      this.state = {
-        notes,
-        selectedNote: null,
-        page: 'NOTES',
-      };
-    }
+    this.state = {
+      notes,
+      selectedNoteIndex: 0,
+    };
   }
 
   addNote = (note) => {
-    this.setState(({ notes }) => {
-      const newNote = remoteNotes.addNote(note);
+    this.setState((oldState) => {
+      const notes = remoteNotes.addNote(note);
 
       return {
-        notes: notes.concat(newNote),
+        notes,
+        selectedNoteIndex: notes.length - 1,
       };
     });
   }
 
-  saveNote = (note) => {
+  updateNote = (note) => {
     const notes = remoteNotes.updateNote(note);
 
-    this.setState({
-      notes,
-      selectedNote: null,
-      page: 'NOTES',
-    });
+    this.setState({ notes });
   }
 
-  viewNotes = () => {
-    this.setState({
-      selectedNote: null,
-      page: 'NOTES',
-    });
+  selectNote = (note) => {
+    const index = this.state.notes.findIndex(
+      otherNote => otherNote.id === note.id,
+    );
+
+    if (index === -1) {
+      return;
+    }
+
+    this.setState({ selectedNoteIndex: index });
   }
 
-  viewNote = (note) => {
-    this.setState({
-      selectedNote: note,
-      page: 'NOTE',
-    });
+  getSelectedNote() {
+    return this.state.notes[this.state.selectedNoteIndex];
   }
 
   render() {
-    if (this.state.page === 'NOTE') {
-      return (
-        <Note
-          note={this.state.selectedNote}
-          onCancel={this.viewNotes}
-          onSave={this.saveNote}
-        />
-      );
-    }
+    const selectedNote = this.getSelectedNote();
 
     return (
-      <div>
-        <NotesList
-          notes={this.state.notes}
-          onSelectNote={this.viewNote}
-        />
+      <div className="app">
+        <div className="app_sidebar">
+          <NotesList
+            notes={this.state.notes}
+            selectedNote={selectedNote}
+            onSelectNote={this.selectNote}
+          />
+          
+          <AddNote onAdd={this.addNote} />
+        </div>
 
-        <AddNote onAddNote={this.addNote} />
+        <div className="app_content">
+          {selectedNote &&
+            <Note
+              note={selectedNote}
+              onUpdate={this.updateNote}
+            />
+          }
+        </div>
       </div>
     );
   }

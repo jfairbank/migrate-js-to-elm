@@ -1,0 +1,9 @@
+.add-note {
+}
+
+.add-note label,
+.add-note input,
+.add-note button {
+  display: block;
+  width: 100%;
+}

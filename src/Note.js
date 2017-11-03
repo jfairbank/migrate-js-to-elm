@@ -2,81 +2,70 @@ import React, { Component } from 'react';
 import ImageUpload from './ImageUpload';
 
 class Note extends Component {
-  constructor(props) {
-    super(props);
-
-    const { note } = props;
-
-    this.state = {
-      title: note.title,
-      description: note.description,
-      images: note.images,
-    };
+  componentDidMount() {
+    this.selectTitleRef();
   }
 
-  save = () => {
-    this.props.onSave({
+  componentDidUpdate(prevProps) {
+    if (prevProps.note.id !== this.props.note.id) {
+      this.selectTitleRef();
+    }
+  }
+
+  selectTitleRef() {
+    this.titleRef.focus();
+    this.titleRef.select();
+  }
+
+  update(field, value) {
+    this.props.onUpdate({
       ...this.props.note,
-      ...this.state,
+      [field]: value,
     });
   }
 
-  update(field) {
+  updateField(field) {
     return (e) => {
-      this.setState({ [field]: e.target.value });
+      this.update(field, e.target.value);
     };
   }
 
-  setImages = (images) => {
-    this.setState({ images });
+  updateImages = (images) => {
+    this.update('images', images);
   }
 
   deleteImage = (id) => {
-    this.setState(({ images }) => ({
-      images: images.filter(image => image.id !== id),
-    }));
+    this.updateImages(this.props.note.images.filter(
+      image => image.id !== id
+    ));
   }
 
   render() {
-    const { state } = this;
-    const { onCancel } = this.props;
-    const canSave = state.title.length > 0;
+    const { note } = this.props;
 
     return (
       <div>
         <div>
           <input
+            ref={(node) => { this.titleRef = node; }}
             type="text"
-            value={state.title}
-            onChange={this.update('title')}
+            value={note.title}
+            onChange={this.updateField('title')}
           />
         </div>
 
         <div>
           <textarea
-            onChange={this.update('description')}
-            value={state.description}
+            onChange={this.updateField('description')}
+            value={note.description}
           />
         </div>
 
         <ImageUpload
-          images={state.images}
-          onUpload={this.setImages}
+          images={note.images}
+          onUpload={this.updateImages}
           onDelete={this.deleteImage}
         />
-
-        <div>
-          <button onClick={onCancel}>
-            Cancel
-          </button>
-
-          <button
-            onClick={this.save}
-            disabled={!canSave}
-          >
-            Save
-          </button>
-        </div>
       </div>
     );
   }

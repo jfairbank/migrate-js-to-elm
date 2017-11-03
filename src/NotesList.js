@@ -1,14 +1,20 @@
 import React from 'react';
-import NoteLink from './NoteLink';
+import classNames from 'classnames';
+import './NotesList.css';
 
-const NotesList = ({ notes, onSelectNote }) => (
-  <ul>
+const NotesList = ({ notes, selectedNote, onSelectNote }) => (
+  <ul className="notes-list">
     {notes.map(note => (
-      <li key={note.id}>
-        <NoteLink
-          note={note}
-          onSelectNote={onSelectNote}
-        />
+      <li
+        className={classNames(
+          'notes-list_item',
+          { 'notes-list_item--selected': selectedNote && note.id === selectedNote.id }
+        )}
+        key={note.id}
+        tabIndex={0}
+        onClick={() => onSelectNote(note)}
+      >
+        {note.title.trim() || 'Untitled'}
       </li>
     ))}
   </ul>
