@@ -7,32 +7,12 @@ class Note extends Component {
     super(props);
 
     this.deleteNote = this.deleteNote.bind(this);
-    this.setTitleRef = this.setTitleRef.bind(this);
     this.addImages = this.addImages.bind(this);
     this.deleteImage = this.deleteImage.bind(this);
   }
 
-  componentDidMount() {
-    this.selectTitleRef();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.note.id !== this.props.note.id) {
-      this.selectTitleRef();
-    }
-  }
-
   deleteNote() {
     this.props.onDelete(this.props.note);
-  }
-
-  selectTitleRef() {
-    this.titleRef.focus();
-    this.titleRef.select();
-  }
-
-  setTitleRef(node) {
-    this.titleRef = node;
   }
 
   update(field, value) {
@@ -69,7 +49,6 @@ class Note extends Component {
 
           <div className="note__title">
             <input
-              ref={this.setTitleRef}
               type="text"
               value={note.title}
               placeholder="Title"
