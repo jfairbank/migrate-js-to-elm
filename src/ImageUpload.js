@@ -34,8 +34,6 @@ class ImageUpload extends Component {
     this.elm = Elm.ImageUpload.embed(this.elmRef, {
       imageUploaderId: IMAGE_UPLOADER_ID,
       images: this.props.images,
-      onUpload: this.props.onUpload,
-      onDelete: this.props.onDelete,
     });
 
     this.elm.ports.uploadImages.subscribe(this.readImages);
