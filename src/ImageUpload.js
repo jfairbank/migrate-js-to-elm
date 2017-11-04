@@ -27,11 +27,11 @@ class ImageUpload extends Component {
     super(props);
 
     this.readImages = this.readImages.bind(this);
-    this.setImageUploaderRef = this.setImageUploaderRef.bind(this);
+    this.setElmRef = this.setElmRef.bind(this);
   }
 
   componentDidMount() {
-    this.elm = Elm.ImageUpload.embed(this.imageUploaderRef, {
+    this.elm = Elm.ImageUpload.embed(this.elmRef, {
       imageUploaderId: IMAGE_UPLOADER_ID,
       images: this.props.images,
       onUpload: this.props.onUpload,
@@ -59,13 +59,13 @@ class ImageUpload extends Component {
       .then(this.props.onUpload);
   }
 
-  setImageUploaderRef(node) {
-    this.imageUploaderRef = node;
+  setElmRef(node) {
+    this.elmRef = node;
   }
 
   render() {
     return (
-      <div ref={this.setImageUploaderRef} />
+      <div ref={this.setElmRef} />
     );
   }
 }
