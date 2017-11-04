@@ -31,24 +31,24 @@ class ImageUpload extends Component {
   }
 
   componentDidMount() {
-    this.imageUploader = Elm.ImageUpload.embed(this.imageUploaderRef, {
+    this.elm = Elm.ImageUpload.embed(this.imageUploaderRef, {
       imageUploaderId: IMAGE_UPLOADER_ID,
       images: this.props.images,
       onUpload: this.props.onUpload,
       onDelete: this.props.onDelete,
     });
 
-    this.imageUploader.ports.uploadImages.subscribe(this.readImages);
-    this.imageUploader.ports.deleteImage.subscribe(this.props.onDelete);
+    this.elm.ports.uploadImages.subscribe(this.readImages);
+    this.elm.ports.deleteImage.subscribe(this.props.onDelete);
   }
 
   componentWillUnmount() {
-    this.imageUploader.ports.uploadImages.unsubscribe(this.readImages);
-    this.imageUploader.ports.deleteImage.unsubscribe(this.props.onDelete);
+    this.elm.ports.uploadImages.unsubscribe(this.readImages);
+    this.elm.ports.deleteImage.unsubscribe(this.props.onDelete);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.imageUploader.ports.receiveImages.send(nextProps.images);
+    this.elm.ports.receiveImages.send(nextProps.images);
   }
 
   readImages(images) {
