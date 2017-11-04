@@ -32,7 +32,7 @@ class ImageUpload extends Component {
 
   componentDidMount() {
     this.imageUploader = Elm.ImageUpload.embed(this.imageUploaderRef, {
-      id: IMAGE_UPLOADER_ID,
+      imageUploaderId: IMAGE_UPLOADER_ID,
       images: this.props.images,
       onUpload: this.props.onUpload,
       onDelete: this.props.onDelete,

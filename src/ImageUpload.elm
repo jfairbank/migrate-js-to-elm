@@ -12,7 +12,7 @@ onChange msg =
 
 
 type alias Flags =
-    { id : String
+    { imageUploaderId : String
     , images : List Image
     }
 
@@ -37,14 +37,47 @@ type alias Id =
 
 
 type alias Model =
-    { id : Id
+    { imageUploaderId : String
     , images : List Image
     }
 
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( Model flags.id flags.images, Cmd.none )
+    ( Model flags.imageUploaderId flags.images, Cmd.none )
+
+
+viewImage : Image -> Html Msg
+viewImage image =
+    li [ class "image-upload__image" ]
+        [ img
+            [ src image.url
+            , width 400
+            ]
+            []
+        , button
+            [ class "image-upload__remove-image-button"
+            , onClick (DeleteImage image.id)
+            ]
+            [ text "Remove" ]
+        ]
+
+
+view : Model -> Html Msg
+view model =
+    div [ class "image-upload" ]
+        [ label [ for model.imageUploaderId ]
+            [ text "+ Add Images" ]
+        , input
+            [ id model.imageUploaderId
+            , type_ "file"
+            , multiple True
+            , onChange UploadImages
+            ]
+            []
+        , ul [ class "image-upload__images" ]
+            (List.map viewImage model.images)
+        ]
 
 
 type Msg
@@ -66,38 +99,6 @@ update msg model =
 
         DeleteImage id ->
             ( model, deleteImage id )
-
-
-viewImage : Image -> Html Msg
-viewImage image =
-    li [ class "image-upload__image" ]
-        [ img
-            [ src image.url
-            , width 400
-            ]
-            []
-        , button
-            [ class "image-upload__remove-image-button"
-            , onClick (DeleteImage image.id) ]
-            [ text "Remove" ]
-        ]
-
-
-view : Model -> Html Msg
-view model =
-    div [ class "image-upload" ]
-        [ label [ for model.id ]
-            [ text "+ Add Images" ]
-        , input
-            [ id model.id
-            , type_ "file"
-            , multiple True
-            , onChange UploadImages
-            ]
-            []
-        , ul [ class "image-upload__images" ]
-            (List.map viewImage model.images)
-        ]
 
 
 subscriptions : Model -> Sub Msg
