@@ -3,6 +3,15 @@ import ImageUpload from './ImageUpload';
 import './Note.css';
 
 class Note extends Component {
+  constructor(props) {
+    super(props);
+
+    this.deleteNote = this.deleteNote.bind(this);
+    this.setTitleRef = this.setTitleRef.bind(this);
+    this.addImages = this.addImages.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
+  }
+
   componentDidMount() {
     this.selectTitleRef();
   }
@@ -13,7 +22,7 @@ class Note extends Component {
     }
   }
 
-  deleteNote = () => {
+  deleteNote() {
     this.props.onDelete(this.props.note);
   }
 
@@ -22,7 +31,7 @@ class Note extends Component {
     this.titleRef.select();
   }
 
-  setTitleRef = (node) => {
+  setTitleRef(node) {
     this.titleRef = node;
   }
 
@@ -39,11 +48,11 @@ class Note extends Component {
     };
   }
 
-  addImages = (images) => {
+  addImages(images) {
     this.update('images', this.props.note.images.concat(images));
   }
 
-  deleteImage = (id) => {
+  deleteImage(id) {
     this.update(
       'images',
       this.props.note.images.filter(image => image.id !== id),

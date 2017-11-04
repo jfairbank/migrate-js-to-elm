@@ -18,9 +18,13 @@ class App extends Component {
       notes,
       selectedNoteId: firstId,
     };
+
+    this.addNote = this.addNote.bind(this);
+    this.updateNote = this.updateNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
-  addNote = () => {
+  addNote() {
     this.setState((oldState) => {
       const notes = remoteNotes.createNote();
       const lastId = get(notes, [notes.length - 1, 'id'], null);
@@ -32,16 +36,16 @@ class App extends Component {
     });
   }
 
-  updateNote = (note) => {
+  updateNote(note) {
     const notes = remoteNotes.updateNote(note);
     this.setState({ notes });
   }
 
-  selectNote = (note) => {
+  selectNote(note) {
     this.setState({ selectedNoteId: note.id });
   }
 
-  deleteNote = (note) => {
+  deleteNote(note) {
     const notes = remoteNotes.deleteNote(note);
     this.setState({ notes, selectedNoteId: null });
   }

@@ -20,20 +20,19 @@ function readImage(file) {
   return promise;
 }
 
+const IMAGE_UPLOADER_ID = 'file-upload';
+
 class ImageUpload extends Component {
-  imageUploaderId = 'file-upload'
+  constructor(props) {
+    super(props);
 
-  readImages = (images) => {
-    const element = document.getElementById(this.imageUploaderId);
-    const files = Array.from(element.files);
-
-    Promise.all(files.map(readImage))
-      .then(this.props.onUpload);
+    this.readImages = this.readImages.bind(this);
+    this.setImageUploaderRef = this.setImageUploaderRef.bind(this);
   }
 
   componentDidMount() {
     this.imageUploader = Elm.ImageUpload.embed(this.imageUploaderRef, {
-      id: this.imageUploaderId,
+      id: IMAGE_UPLOADER_ID,
       images: this.props.images,
       onUpload: this.props.onUpload,
       onDelete: this.props.onDelete,
@@ -52,7 +51,15 @@ class ImageUpload extends Component {
     this.imageUploader.ports.receiveImages.send(nextProps.images);
   }
 
-  setImageUploaderRef = (node) => {
+  readImages(images) {
+    const element = document.getElementById(IMAGE_UPLOADER_ID);
+    const files = Array.from(element.files);
+
+    Promise.all(files.map(readImage))
+      .then(this.props.onUpload);
+  }
+
+  setImageUploaderRef(node) {
     this.imageUploaderRef = node;
   }
 
