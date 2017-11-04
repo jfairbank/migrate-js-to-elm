@@ -16,20 +16,30 @@ export function getAll() {
 }
 
 export function updateNote(note) {
-  let notes = getAll();
-  const index = notes.findIndex(otherNote => otherNote.id === note.id);
-
-  if (index > -1) {
-    notes.splice(index, 1, note);
-  }
+  const notes = getAll()
+    .map(otherNote => (
+      otherNote.id === note.id
+        ? note
+        : otherNote
+    ));
 
   updateNotes(notes);
+
   return notes;
 }
 
-export function addNote(noteWithoutId) {
+export function createNote() {
   const note = newNote();
   const notes = getAll().concat(note);
+
+  updateNotes(notes);
+
+  return notes;
+}
+
+export function deleteNote(note) {
+  const notes = getAll()
+    .filter(otherNote => otherNote.id !== note.id);
 
   updateNotes(notes);
 

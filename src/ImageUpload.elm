@@ -1,7 +1,7 @@
 port module ImageUpload exposing (main)
 
-import Html exposing (Html, button, div, img, input, text)
-import Html.Attributes exposing (id, multiple, src, type_, width)
+import Html exposing (Html, button, div, img, input, label, li, text, ul)
+import Html.Attributes exposing (class, for, id, multiple, src, type_, width)
 import Html.Events exposing (on, onClick)
 import Json.Decode as Decode exposing (succeed)
 
@@ -19,11 +19,11 @@ type alias Flags =
 
 type alias Image =
     { id : Id
-    , contents : String
+    , url : String
     }
 
 
-port uploadImage : () -> Cmd msg
+port uploadImages : () -> Cmd msg
 
 
 port deleteImage : Id -> Cmd msg
@@ -48,7 +48,7 @@ init flags =
 
 
 type Msg
-    = UploadImage
+    = UploadImages
     | ReceiveImages (List Image)
     | DeleteImage Id
 
@@ -56,8 +56,8 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UploadImage ->
-            ( model, uploadImage () )
+        UploadImages ->
+            ( model, uploadImages () )
 
         ReceiveImages images ->
             ( { model | images = images }
@@ -70,29 +70,33 @@ update msg model =
 
 viewImage : Image -> Html Msg
 viewImage image =
-    div []
+    li [ class "image-upload__image" ]
         [ img
-            [ src image.contents
+            [ src image.url
             , width 400
             ]
             []
         , button
-            [ onClick (DeleteImage image.id) ]
-            [ text "Delete" ]
+            [ class "image-upload__remove-image-button"
+            , onClick (DeleteImage image.id) ]
+            [ text "Remove" ]
         ]
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ input
+    div [ class "image-upload" ]
+        [ label [ for model.id ]
+            [ text "+ Add Images" ]
+        , input
             [ id model.id
             , type_ "file"
             , multiple True
-            , onChange UploadImage
+            , onChange UploadImages
             ]
             []
-        , div [] (List.map viewImage model.images)
+        , ul [ class "image-upload__images" ]
+            (List.map viewImage model.images)
         ]
 
 

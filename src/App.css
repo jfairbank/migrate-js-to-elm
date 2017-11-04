@@ -1,17 +1,27 @@
 .app {
   display: flex;
   flex-direction: row;
-  margin: 20px;
+  /* margin: 20px; */
 }
 
-.app_sidebar {
+.app__sidebar {
+  border-right: 1px solid #CCC;
   width: 250px;
 }
 
-.app_sidebar .add-note {
-  margin-top: 10px;
+.app__add-note {
+  margin: 0 auto;
+  width: 220px;
+}
+
+.app__add-note .add-note {
+  margin-top: 20px;
+  /* margin-left: 20px; */
+  text-align: center;
 }
 
 .app_content {
-  margin-left: 40px;
+  /* border-left: 1px solid #CCC; */
+  padding-left: 80px;
+  padding-top: 20px;
 }

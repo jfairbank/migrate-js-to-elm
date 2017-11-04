@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import Elm from './ImageUpload.elm';
 import cuid from 'cuid';
+import Elm from './ImageUpload.elm';
+import './ImageUpload.css';
 
 function readImage(file) {
   const reader = new FileReader();
 
   const promise = new Promise((resolve) => {
     reader.onload = (e) => {
-      const id = cuid();
-      const imageContents = e.target.result;
-
-      const image = {
-        id,
-        contents: imageContents,
-      };
-
-      resolve(image);
+      resolve({
+        id: cuid(),
+        url: e.target.result,
+      });
     };
   });
 
@@ -43,12 +39,12 @@ class ImageUpload extends Component {
       onDelete: this.props.onDelete,
     });
 
-    this.imageUploader.ports.uploadImage.subscribe(this.readImages);
+    this.imageUploader.ports.uploadImages.subscribe(this.readImages);
     this.imageUploader.ports.deleteImage.subscribe(this.props.onDelete);
   }
 
   componentWillUnmount() {
-    this.imageUploader.ports.uploadImage.unsubscribe(this.readImages);
+    this.imageUploader.ports.uploadImages.unsubscribe(this.readImages);
     this.imageUploader.ports.deleteImage.unsubscribe(this.props.onDelete);
   }
 

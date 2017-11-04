@@ -7,8 +7,8 @@ const NotesList = ({ notes, selectedNote, onSelectNote }) => (
     {notes.map(note => (
       <li
         className={classNames(
-          'notes-list_item',
-          { 'notes-list_item--selected': selectedNote && note.id === selectedNote.id }
+          'notes-list__item',
+          { 'notes-list__item--selected': selectedNote && note.id === selectedNote.id }
         )}
         key={note.id}
         tabIndex={0}

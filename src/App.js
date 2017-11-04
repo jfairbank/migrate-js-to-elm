@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import get from 'lodash/get';
+import find from 'lodash/find';
 import Note from './Note';
 import NotesList from './NotesList';
 import AddNote from './AddNote';
@@ -10,44 +12,46 @@ class App extends Component {
     super(props);
 
     const notes = remoteNotes.getAll();
+    const firstId = get(notes, '[0].id', null);
 
     this.state = {
       notes,
-      selectedNoteIndex: 0,
+      selectedNoteId: firstId,
     };
   }
 
-  addNote = (note) => {
+  addNote = () => {
     this.setState((oldState) => {
-      const notes = remoteNotes.addNote(note);
+      const notes = remoteNotes.createNote();
+      const lastId = get(notes, [notes.length - 1, 'id'], null);
 
       return {
         notes,
-        selectedNoteIndex: notes.length - 1,
+        selectedNoteId: lastId,
       };
     });
   }
 
   updateNote = (note) => {
     const notes = remoteNotes.updateNote(note);
-
     this.setState({ notes });
   }
 
   selectNote = (note) => {
-    const index = this.state.notes.findIndex(
-      otherNote => otherNote.id === note.id,
-    );
+    this.setState({ selectedNoteId: note.id });
+  }
 
-    if (index === -1) {
-      return;
-    }
-
-    this.setState({ selectedNoteIndex: index });
+  deleteNote = (note) => {
+    const notes = remoteNotes.deleteNote(note);
+    this.setState({ notes, selectedNoteId: null });
   }
 
   getSelectedNote() {
-    return this.state.notes[this.state.selectedNoteIndex];
+    const { notes, selectedNoteId } = this.state;
+
+    return selectedNoteId
+      ? find(notes, { id: this.state.selectedNoteId })
+      : null;
   }
 
   render() {
@@ -55,14 +59,16 @@ class App extends Component {
 
     return (
       <div className="app">
-        <div className="app_sidebar">
+        <div className="app__sidebar">
           <NotesList
             notes={this.state.notes}
             selectedNote={selectedNote}
             onSelectNote={this.selectNote}
           />
           
-          <AddNote onAdd={this.addNote} />
+          <div className="app__add-note">
+            <AddNote onAdd={this.addNote} />
+          </div>
         </div>
 
         <div className="app_content">
@@ -70,6 +76,7 @@ class App extends Component {
             <Note
               note={selectedNote}
               onUpdate={this.updateNote}
+              onDelete={this.deleteNote}
             />
           }
         </div>

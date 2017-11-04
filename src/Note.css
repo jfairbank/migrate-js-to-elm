@@ -1,0 +1,50 @@
+.note {
+  display: flex;
+  flex-direction: row;
+}
+
+.note h2 {
+  font-size: 40px;
+  border-bottom: 1px solid #AAA;
+  margin: 0 0 40px;
+  padding-bottom: 5px;
+}
+
+.note__info {
+  margin-right: 80px;
+  width: 400px;
+}
+
+.note__title {
+  margin-bottom: 20px;
+}
+
+.note__title input {
+  border: 0 none;
+  border-bottom: 1px solid #CCC;
+  font-size: 24px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
+.note__description {
+  margin-bottom: 20px;
+}
+
+.note__description textarea {
+  /* border: 0 none; */
+  /* border-bottom: 1px solid #CCC; */
+  border: 1px solid #CCC;
+  font-size: 24px;
+  height: 300px;
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.note__images {
+  width: 500px;
+}
+
+/* .note__delete button { */
+/* } */

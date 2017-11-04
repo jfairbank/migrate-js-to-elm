@@ -4,17 +4,18 @@
   padding: 0;
 }
 
-.notes-list_item {
+.notes-list__item {
   cursor: pointer;
   /* height: 34px; */
-  padding: 8px;
+  font-size: 24px;
+  padding: 12px 16px;
 }
 
-.notes-list_item + .notes-list_item {
-  border-top: 1px solid #ccc;
+.notes-list__item {
+  border-bottom: 1px solid #CCC;
 }
 
-.notes-list_item--selected,
-.notes-list_item:hover {
-  background: #efefef;
+.notes-list__item--selected,
+.notes-list__item:hover {
+  background: #EFEFEF;
 }
