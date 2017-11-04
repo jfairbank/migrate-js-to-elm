@@ -32,8 +32,6 @@
 }
 
 .note__description textarea {
-  /* border: 0 none; */
-  /* border-bottom: 1px solid #CCC; */
   border: 1px solid #CCC;
   font-size: 24px;
   height: 300px;
@@ -45,6 +43,3 @@
 .note__images {
   width: 500px;
 }
-
-/* .note__delete button { */
-/* } */
