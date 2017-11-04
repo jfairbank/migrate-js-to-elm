@@ -21,6 +21,7 @@ class App extends Component {
 
     this.addNote = this.addNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
+    this.selectNote = this.selectNote.bind(this);
     this.deleteNote = this.deleteNote.bind(this);
   }
 
