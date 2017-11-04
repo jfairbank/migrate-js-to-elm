@@ -7,6 +7,7 @@ class Note extends Component {
     super(props);
 
     this.addImages = this.addImages.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
 
   update(field, value) {
@@ -24,6 +25,13 @@ class Note extends Component {
 
   addImages(images) {
     this.update('images', this.props.note.images.concat(images));
+  }
+
+  deleteImage(imageId) {
+    this.update(
+      'images',
+      this.props.note.images.filter(image => image.id !== imageId),
+    );
   }
 
   render() {
@@ -58,6 +66,7 @@ class Note extends Component {
           <ImageUpload
             images={note.images}
             onUpload={this.addImages}
+            onDelete={this.deleteImage}
           />
         </div>
       </div>
