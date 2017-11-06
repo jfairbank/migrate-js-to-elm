@@ -12,17 +12,15 @@ class App extends Component {
   }
 
   fetchSavedNote() {
-    const note = localStorage.getItem('note');
+    let note = localStorage.getItem('note');
 
-    if (!note) {
-      return {
-        id: cuid(),
-        title: 'Untitled',
-        contents: '',
-      };
-    }
+    note = note ? JSON.parse(note) : { id: cuid() };
 
-    return JSON.parse(note);
+    return {
+      title: 'Untitled',
+      contents: '',
+      ...note,
+    };
   }
 
   saveNote(note) {
