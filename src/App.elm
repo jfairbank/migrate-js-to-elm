@@ -63,6 +63,11 @@ viewImage image =
             , width 400
             ]
             []
+        , button
+            [ class "image-upload__remove-image-button"
+            , onClick (DeleteImage image.id)
+            ]
+            [ text "Remove" ]
         ]
 
 
@@ -128,6 +133,19 @@ addImages images note =
     { note | images = note.images ++ images }
 
 
+deleteImage : Id -> Note -> Note
+deleteImage id note =
+    let
+        newImages =
+            List.filter
+                (\image ->
+                    image.id /= id
+                )
+                note.images
+    in
+        { note | images = newImages }
+
+
 updateNote : (Note -> Note) -> Model -> ( Model, Cmd msg )
 updateNote updater model =
     let
@@ -142,6 +160,7 @@ updateNote updater model =
 type Msg
     = UploadImages
     | ReceiveImages (List Image)
+    | DeleteImage Id
     | UpdateTitle String
     | UpdateContents String
 
@@ -154,6 +173,9 @@ update msg model =
 
         ReceiveImages images ->
             updateNote (addImages images) model
+
+        DeleteImage id ->
+            updateNote (deleteImage id) model
 
         UpdateTitle title ->
             updateNote (updateTitle title) model
