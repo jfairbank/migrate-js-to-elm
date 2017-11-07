@@ -11,6 +11,12 @@ onChange msg =
     on "change" (succeed msg)
 
 
+type alias Flags =
+    { imageUploaderId : String
+    , images : List Image
+    }
+
+
 type alias Image =
     { url : String }
 
@@ -22,12 +28,14 @@ port receiveImages : (List Image -> msg) -> Sub msg
 
 
 type alias Model =
-    { images : List Image }
+    { imageUploaderId : String
+    , images : List Image
+    }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( Model [], Cmd.none )
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    ( Model flags.imageUploaderId flags.images, Cmd.none )
 
 
 viewImage : Image -> Html Msg
@@ -44,10 +52,10 @@ viewImage image =
 view : Model -> Html Msg
 view model =
     div [ class "image-upload" ]
-        [ label [ for "file-upload" ]
+        [ label [ for model.imageUploaderId ]
             [ text "+ Add Images" ]
         , input
-            [ id "file-upload"
+            [ id model.imageUploaderId
             , type_ "file"
             , multiple True
             , onChange UploadImages
@@ -80,9 +88,9 @@ subscriptions model =
     receiveImages ReceiveImages
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    Html.program
+    Html.programWithFlags
         { init = init
         , view = view
         , update = update

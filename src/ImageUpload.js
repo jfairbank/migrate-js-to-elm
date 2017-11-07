@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Elm from './ImageUpload.elm';
 import './ImageUpload.css';
 
+const IMAGE_UPLOADER_ID = 'file-upload';
+
 class ImageUpload extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,11 @@ class ImageUpload extends Component {
   }
 
   componentDidMount() {
-    this.elm = Elm.ImageUpload.embed(this.elmRef);
+    this.elm = Elm.ImageUpload.embed(this.elmRef, {
+      imageUploaderId: IMAGE_UPLOADER_ID,
+      images: this.props.images,
+    });
+
     this.elm.ports.uploadImages.subscribe(this.readImages);
   }
 
@@ -40,7 +46,7 @@ class ImageUpload extends Component {
   }
 
   readImages() {
-    const element = document.getElementById('file-upload');
+    const element = document.getElementById(IMAGE_UPLOADER_ID);
     const files = Array.from(element.files);
 
     Promise.all(files.map(this.readImage))
