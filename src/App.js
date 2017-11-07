@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ImageUpload from './ImageUpload';
 import './App.css';
 
 class App extends Component {
@@ -71,6 +72,11 @@ class App extends Component {
               onChange={this.updateField('contents')}
             />
           </div>
+        </div>
+
+        <div className="note__images">
+          <h2>Images</h2>
+          <ImageUpload />
         </div>
       </div>
     );
