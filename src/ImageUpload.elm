@@ -1,7 +1,7 @@
 port module ImageUpload exposing (main)
 
-import Html exposing (Html, div, input, label, text)
-import Html.Attributes exposing (class, for, id, multiple, type_)
+import Html exposing (Html, div, img, input, label, li, text, ul)
+import Html.Attributes exposing (class, for, id, multiple, src, type_, width)
 import Html.Events exposing (on)
 import Json.Decode as Decode exposing (succeed)
 
@@ -11,16 +11,40 @@ onChange msg =
     on "change" (succeed msg)
 
 
+type alias Id =
+    String
+
+
+type alias Image =
+    { id : Id
+    , url : String
+    }
+
+
 port uploadImages : () -> Cmd msg
 
 
+port receiveImages : (List Image -> msg) -> Sub msg
+
+
 type alias Model =
-    ()
+    { images : List Image }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( (), Cmd.none )
+    ( Model [], Cmd.none )
+
+
+viewImage : Image -> Html Msg
+viewImage image =
+    li [ class "image-upload__image" ]
+        [ img
+            [ src image.url
+            , width 400
+            ]
+            []
+        ]
 
 
 view : Model -> Html Msg
@@ -35,11 +59,14 @@ view model =
             , onChange UploadImages
             ]
             []
+        , ul [ class "image-upload__images" ]
+            (List.map viewImage model.images)
         ]
 
 
 type Msg
     = UploadImages
+    | ReceiveImages (List Image)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -48,10 +75,15 @@ update msg model =
         UploadImages ->
             ( model, uploadImages () )
 
+        ReceiveImages images ->
+            ( { model | images = images }
+            , Cmd.none
+            )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    receiveImages ReceiveImages
 
 
 main : Program Never Model Msg
