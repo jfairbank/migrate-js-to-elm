@@ -19,6 +19,10 @@ class ImageUpload extends Component {
     this.elm.ports.uploadImages.unsubscribe(this.readImages);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.elm.ports.receiveImages.send(nextProps.images);
+  }
+
   readImage(file) {
     const reader = new FileReader();
 
