@@ -17,7 +17,7 @@ class App extends Component {
     note = note ? JSON.parse(note) : { id: cuid() };
 
     return {
-      title: 'Untitled',
+      title: '',
       contents: '',
       ...note,
     };
