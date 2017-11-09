@@ -55,18 +55,20 @@ class App extends Component {
           <h2>Info</h2>
 
           <div className="note__title">
+            <label>Title:</label>
+
             <input
               type="text"
               value={note.title}
-              placeholder="Title"
               onChange={this.updateField('title')}
             />
           </div>
 
           <div className="note__contents">
+            <label>Contents:</label>
+
             <textarea
               value={note.contents}
-              placeholder="Contents"
               onChange={this.updateField('contents')}
             />
           </div>
