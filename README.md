@@ -1,7 +1,30 @@
 # Migrate JavaScript to Elm
 
-A simple note-taking React application for showing how to integrate with and migrate to Elm. This repo is meant to be used with the book _Programming Elm_.
+A simple note-taking React application for showing how to add an image upload feature with Elm and eventually migrate the entire application to Elm. This repo is meant to be used with the book _Programming Elm_.
 
-Check the branches `01-add-image-uploader` and `02-migrate-all` for steps toward adding a new image upload feature in Elm and then migrating the whole application to Elm.
+## Getting Started
 
-You can check the branches `old-01-multiple-notes-add-image-uploader`, `old-02-multiple-notes-migrate-note`, and `old-03-multiple-notes-migrate-all` to see a more complex version of the application with multiple notes.
+Install dependencies with npm:
+
+```bash
+npm install
+```
+
+Run the application:
+
+```bash
+npm start
+```
+
+Your browser should open the application in a browser tab.
+
+## Add Image Upload Feature
+
+You can find the steps for adding the image upload feature and migrating the entire application with these branches:
+
+1. `01-add-initial-image-uploader`
+2. `02-upload-images`
+3. `03-display-images`
+4. `04-display-initial-images`
+5. `05-migrate-all`
+6. `06-delete-images`
