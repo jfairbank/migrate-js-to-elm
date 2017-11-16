@@ -3,6 +3,12 @@ import ImageUpload from './ImageUpload';
 import './Note.css';
 
 class Note extends Component {
+  constructor(props) {
+    super(props);
+
+    this.addImages = this.addImages.bind(this);
+  }
+
   update(field, value) {
     this.props.onUpdate({
       ...this.props.note,
@@ -14,6 +20,10 @@ class Note extends Component {
     return (e) => {
       this.update(field, e.target.value);
     };
+  }
+
+  addImages(images) {
+    this.update('images', this.props.note.images.concat(images));
   }
 
   render() {
@@ -46,7 +56,11 @@ class Note extends Component {
 
         <div className="note__images">
           <h2>Images</h2>
-          <ImageUpload />
+
+          <ImageUpload
+            images={note.images}
+            onUpload={this.addImages}
+          />
         </div>
       </div>
     );

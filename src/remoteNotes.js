@@ -3,6 +3,7 @@ import cuid from 'cuid';
 const DEFAULT_ATTRIBUTES = {
   title: '',
   contents: '',
+  images: [],
 };
 
 const newNote = () => ({

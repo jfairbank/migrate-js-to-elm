@@ -1,7 +1,17 @@
-module ImageUpload exposing (main)
+port module ImageUpload exposing (main)
 
 import Html exposing (Html, div, input, label, text)
 import Html.Attributes exposing (class, for, id, multiple, type_)
+import Html.Events exposing (on)
+import Json.Decode as Decode exposing (succeed)
+
+
+onChange : msg -> Html.Attribute msg
+onChange msg =
+    on "change" (succeed msg)
+
+
+port uploadImages : () -> Cmd msg
 
 
 type alias Model =
@@ -22,18 +32,21 @@ view model =
             [ id "file-upload"
             , type_ "file"
             , multiple True
+            , onChange UploadImages
             ]
             []
         ]
 
 
 type Msg
-    = NoOp
+    = UploadImages
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        UploadImages ->
+            ( model, uploadImages () )
 
 
 subscriptions : Model -> Sub Msg
