@@ -1,10 +1,13 @@
 import cuid from 'cuid';
 
+const DEFAULT_ATTRIBUTES = {
+  title: '',
+  contents: '',
+};
+
 const newNote = () => ({
+  ...DEFAULT_ATTRIBUTES,
   id: cuid(),
-  title: 'Untitled',
-  description: '',
-  images: [],
 });
 
 function updateNotes(notes) {
@@ -12,7 +15,11 @@ function updateNotes(notes) {
 }
 
 export function getAll() {
-  return JSON.parse(localStorage.getItem('notes') || '[]');
+  return JSON.parse(localStorage.getItem('notes') || '[]')
+    .map(note => ({
+      ...DEFAULT_ATTRIBUTES,
+      ...note,
+    }));
 }
 
 export function updateNote(note) {

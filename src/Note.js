@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import ImageUpload from './ImageUpload';
 import './Note.css';
 
 class Note extends Component {
-  constructor(props) {
-    super(props);
-
-    this.addImages = this.addImages.bind(this);
-    this.deleteImage = this.deleteImage.bind(this);
-  }
-
   update(field, value) {
     this.props.onUpdate({
       ...this.props.note,
@@ -23,17 +15,6 @@ class Note extends Component {
     };
   }
 
-  addImages(images) {
-    this.update('images', this.props.note.images.concat(images));
-  }
-
-  deleteImage(imageId) {
-    this.update(
-      'images',
-      this.props.note.images.filter(image => image.id !== imageId),
-    );
-  }
-
   render() {
     const { note } = this.props;
 
@@ -43,31 +24,23 @@ class Note extends Component {
           <h2>Info</h2>
 
           <div className="note__title">
+            <label>Title:</label>
+
             <input
               type="text"
               value={note.title}
-              placeholder="Title"
               onChange={this.updateField('title')}
             />
           </div>
 
-          <div className="note__description">
+          <div className="note__contents">
+            <label>Contents:</label>
+
             <textarea
-              value={note.description}
-              placeholder="Description"
-              onChange={this.updateField('description')}
+              value={note.contents}
+              onChange={this.updateField('contents')}
             />
           </div>
-        </div>
-
-        <div className="note__images">
-          <h2>Images</h2>
-
-          <ImageUpload
-            images={note.images}
-            onUpload={this.addImages}
-            onDelete={this.deleteImage}
-          />
         </div>
       </div>
     );
