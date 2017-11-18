@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import cuid from 'cuid';
 import './App.css';
 
 class App extends Component {
@@ -14,7 +13,7 @@ class App extends Component {
   fetchSavedNote() {
     let note = localStorage.getItem('note');
 
-    note = note ? JSON.parse(note) : { id: cuid() };
+    note = note ? JSON.parse(note) : {};
 
     return {
       title: '',
