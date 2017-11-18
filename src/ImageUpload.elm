@@ -11,14 +11,8 @@ onChange msg =
     on "change" (succeed msg)
 
 
-type alias Id =
-    String
-
-
 type alias Image =
-    { id : Id
-    , url : String
-    }
+    { url : String }
 
 
 port uploadImages : () -> Cmd msg
