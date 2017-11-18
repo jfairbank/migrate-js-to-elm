@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import cuid from 'cuid';
 import Elm from './ImageUpload.elm';
 import './ImageUpload.css';
 
@@ -26,7 +25,6 @@ class ImageUpload extends Component {
     const promise = new Promise((resolve) => {
       reader.onload = (e) => {
         resolve({
-          id: cuid(),
           url: e.target.result,
         });
       };
